@@ -13,3 +13,6 @@ logs/
 __pycache__/
 .idea/
 venv/
+
+*.out
+*.pk
