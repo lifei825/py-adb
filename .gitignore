@@ -1,0 +1,15 @@
+*.retry
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+*.log
+*.pid
+
+testcode.py
+test*.py
+log/
+logs/
+__pycache__/
+.idea/
+venv/
