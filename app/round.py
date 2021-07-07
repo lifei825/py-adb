@@ -54,7 +54,7 @@ class RoundBx(Clear):
                 ('tb_second', tb, 0.5 * 3600),
                 ('kkd_second', kkd, 0.5 * 3600),
                 # ('sb_second', sb, 1.5 * 3600),
-                ('ws_second', ws, 0.5 * 3600),
+                # ('ws_second', ws, 0.5 * 3600),
                 ('ks_second', ks, 0.5 * 3600),
                 ('dy_second', dy, 0.5 * 3600),
                 ('fq_second', fq, 0.5 * 3600),
