@@ -6,22 +6,20 @@ from pptx.chart.data import CategoryChartData
 from pptx.dml.color import RGBColor
 
 # 按顺序排列生成月的周报
+
 zb = [
     '/Users/lifei/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/\
 com.tencent.xinWeChat/2.0b4.0.9/f77af8be9b77bf59843ef8bfa4b6f57d/Message/MessageTemp/6da2f04acf67b43f2a8c7e1b13730f89/\
-File/12月/慧企周报-12月第1周.pptx',
+File/2022月报/3月/慧企周报-3月第1周.pptx',
     '/Users/lifei/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/\
 com.tencent.xinWeChat/2.0b4.0.9/f77af8be9b77bf59843ef8bfa4b6f57d/Message/MessageTemp/6da2f04acf67b43f2a8c7e1b13730f89/\
-File/12月/慧企周报-12月第2周.pptx',
+File/2022月报/3月/慧企周报-3月第2周.pptx',
     '/Users/lifei/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/\
 com.tencent.xinWeChat/2.0b4.0.9/f77af8be9b77bf59843ef8bfa4b6f57d/Message/MessageTemp/6da2f04acf67b43f2a8c7e1b13730f89/\
-File/12月/慧企周报-12月第3周.pptx',
+File/2022月报/3月/慧企周报-3月第3周.pptx',
     '/Users/lifei/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/\
 com.tencent.xinWeChat/2.0b4.0.9/f77af8be9b77bf59843ef8bfa4b6f57d/Message/MessageTemp/6da2f04acf67b43f2a8c7e1b13730f89/\
-File/12月/慧企周报-12月第4周.pptx',
-    '/Users/lifei/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/\
-com.tencent.xinWeChat/2.0b4.0.9/f77af8be9b77bf59843ef8bfa4b6f57d/Message/MessageTemp/6da2f04acf67b43f2a8c7e1b13730f89/\
-File/12月/慧企周报-12月第5周.pptx',
+File/2022月报/3月/慧企周报-3月第4周.pptx',
 ]
 
 latest_zb = zb[-1]
@@ -29,14 +27,14 @@ latest_zb = zb[-1]
 # 用上个月月报作为模板
 m = '/Users/lifei/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/\
 com.tencent.xinWeChat/2.0b4.0.9/f77af8be9b77bf59843ef8bfa4b6f57d/Message/MessageTemp/6da2f04acf67b43f2a8c7e1b13730f89/\
-File/12月/test.pptx'
+File/1月/test2.pptx'
 # 生成的新月报
 new_m = '/Users/lifei/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/\
 com.tencent.xinWeChat/2.0b4.0.9/f77af8be9b77bf59843ef8bfa4b6f57d/Message/MessageTemp/6da2f04acf67b43f2a8c7e1b13730f89/\
-File/12月/12月报-慧企.pptx'
+File/2022月报/3月/3月报-慧企.pptx'
 
-month = 12
-weeks = ['月第一周', '月第二周', '月第三周', '月第四周', '月第五周'][:len(zb)]
+month = 1
+weeks = ['月第一周', '月第二周', '月第三周', '月第四周'][:len(zb)]
 
 bg_list = []
 zy_list = []
@@ -78,7 +76,7 @@ def main():
         prs = Presentation(f)
         m_prs = Presentation(m)
         # ppt页数
-        # pri                                       nt(len(prs.slides))
+        # print(len(prs.slides))
         # 变更信息收集
         read_page(11)
         # 支撑发版收集
@@ -100,6 +98,7 @@ def main():
     read_latest_zb(20)
     read_latest_zb(21)
     read_latest_zb(22)
+    # 获取最后一周es信息
     read_latest_zb(23)
     read_latest_zb(24)
 
@@ -129,7 +128,7 @@ def main():
 
 
 def read_page(n):
-    bg = prs.slides[n-1]
+    bg = prs.slides[n - 1]
     for i in bg.shapes:
         if i.has_chart:
             # 外网微服务cpu mem
@@ -193,7 +192,7 @@ def read_page(n):
 
 
 def write_m_page(n):
-    bg = m_prs.slides[n-1]
+    bg = m_prs.slides[n - 1]
 
     for i in bg.shapes:
         if i.has_text_frame and i.shape_type == MSO_SHAPE_TYPE.TEXT_BOX:
@@ -262,10 +261,10 @@ def write_m_page(n):
                 chart_data.categories = ['外网微服务', '外网后台区', '内网微服务区', '内网后台区']
                 if title == 'CPU资源使用情况':
                     chart_data.add_series('已申请', (
-                        float('{:.2f}'.format(used(wwwfw_cpu[-1], 'cpu_ysy')/100)),
-                        float('{:.2f}'.format(used(wwht_cpu[-1], 'cpu_ysy')/100)),
-                        float('{:.2f}'.format(used(nwwfw_cpu[-1], 'cpu_ysy')/100)),
-                        float('{:.2f}'.format(used(nwht_cpu[-1], 'cpu_ysy')/100)),
+                        float('{:.2f}'.format(used(wwwfw_cpu[-1], 'cpu_ysy') / 100)),
+                        float('{:.2f}'.format(used(wwht_cpu[-1], 'cpu_ysy') / 100)),
+                        float('{:.2f}'.format(used(nwwfw_cpu[-1], 'cpu_ysy') / 100)),
+                        float('{:.2f}'.format(used(nwht_cpu[-1], 'cpu_ysy') / 100)),
                     ))
                     chart_data.add_series('剩余', (
                         float('{:.2f}'.format(used(wwwfw_cpu[-1], 'cpu_wsy') / 100)),
@@ -276,10 +275,10 @@ def write_m_page(n):
 
                 if title == '内存使用情况':
                     chart_data.add_series('已申请', (
-                        float('{:.2f}'.format(used(wwwfw_mem[-1], 'mem_ysy')/100)),
-                        float('{:.2f}'.format(used(wwht_mem[-1], 'mem_ysy')/100)),
-                        float('{:.2f}'.format(used(nwwfw_mem[-1], 'mem_ysy')/100)),
-                        float('{:.2f}'.format(used(nwht_mem[-1], 'mem_ysy')/100)),
+                        float('{:.2f}'.format(used(wwwfw_mem[-1], 'mem_ysy') / 100)),
+                        float('{:.2f}'.format(used(wwht_mem[-1], 'mem_ysy') / 100)),
+                        float('{:.2f}'.format(used(nwwfw_mem[-1], 'mem_ysy') / 100)),
+                        float('{:.2f}'.format(used(nwht_mem[-1], 'mem_ysy') / 100)),
                     ))
                     chart_data.add_series('剩余', (
                         float('{:.2f}'.format(used(wwwfw_mem[-1], 'mem_wsy') / 100)),
@@ -305,15 +304,23 @@ def write_m_page(n):
                 chart_data = CategoryChartData()
                 chart_data.categories = ["{}{}".format(month, i) for i in weeks]
                 chart_data.add_series('CPU资源使用率', tuple(
-                    [float('{:.2f}'.format(used(i, 'cpu_ysy')/100)) for i in eval('{}_cpu'.format(dz[str(n)]))]
+                    [float('{:.2f}'.format(used(i, 'cpu_ysy') / 100)) for i in eval('{}_cpu'.format(dz[str(n)]))]
                 ))
                 chart_data.add_series('内存使用率', tuple(
-                    [float('{:.2f}'.format(used(i, 'mem_ysy')/100)) for i in eval('{}_mem'.format(dz[str(n)]))]
+                    [float('{:.2f}'.format(used(i, 'mem_ysy') / 100)) for i in eval('{}_mem'.format(dz[str(n)]))]
                 ))
                 c.replace_data(chart_data)
                 value_axis = c.value_axis
                 tick_labels = value_axis.tick_labels
                 tick_labels.number_format = '0%'
+                # 添加备注
+                cpu_dict = eval('{}_cpu'.format(dz[str(n)]))
+                mem_dict = eval('{}_mem'.format(dz[str(n)]))
+                bg.notes_slide.notes_text_frame.text = '''
+cpu使用：{},
+内存使用：{}.                
+'''.format(", ".join(['{}/{}'.format(int(x['cpu_ysy']), int(x['cpu_ysy'] + x['cpu_wsy'])) for x in cpu_dict]),
+           ", ".join(['{}/{}'.format(int(x['mem_ysy']), int(x['mem_ysy'] + x['mem_wsy'])) for x in mem_dict]))
 
         if i.shape_type == MSO_SHAPE_TYPE.TABLE:
             tbl = i.table
@@ -322,7 +329,7 @@ def write_m_page(n):
                 tj = [len(bg_list), len(zy_list), len(ph_list), len(fb_list), len(gz_list)]
                 for c in range(1, 6):
                     cell = tbl.cell(1, c)
-                    cell.text = str(tj[c-1])
+                    cell.text = str(tj[c - 1])
                     cell.text_frame.paragraphs[0].font.bold = False
                     cell.text_frame.paragraphs[0].font.name = "微软雅黑"
                     cell.text_frame.paragraphs[0].font.size = Pt(10)
@@ -340,7 +347,7 @@ def write_m_page(n):
             if n == 9:
                 for r in range(len(zy_list)):
                     for c in range(len(zy_list[0])):
-                        cell = tbl.cell(r+1, c+1)
+                        cell = tbl.cell(r + 1, c + 1)
                         cell.text = str(zy_list[r][c])
                         cell.text_frame.paragraphs[0].font.bold = False
                         cell.text_frame.paragraphs[0].font.name = "宋体-简"
@@ -351,7 +358,7 @@ def write_m_page(n):
             if n == 10:
                 for r in range(len(ph_list)):
                     for c in range(len(ph_list[0])):
-                        cell = tbl.cell(r+1, c+1)
+                        cell = tbl.cell(r + 1, c + 1)
                         cell.text = str(ph_list[r][c])
                         cell.text_frame.paragraphs[0].font.bold = False
                         cell.text_frame.paragraphs[0].font.name = "宋体-简"
@@ -363,7 +370,7 @@ def write_m_page(n):
             if n == 11:
                 for r in range(len(fb_list)):
                     for c in range(len(fb_list[0])):
-                        cell = tbl.cell(r+1, c)
+                        cell = tbl.cell(r + 1, c)
                         cell.text = str(fb_list[r][c])
                         cell.text_frame.paragraphs[0].font.bold = True
                         cell.text_frame.paragraphs[0].font.name = "黑体"
@@ -374,7 +381,14 @@ def write_m_page(n):
             if n == 12:
                 for r in range(len(gz_list)):
                     for c in range(len(gz_list[0])):
-                        cell = tbl.cell(r+1, c+1)
+                        if c == 2:
+                            cell = tbl.cell(r + 1, 5)
+                        elif c == 3:
+                            cell = tbl.cell(r + 1, 3)
+                        elif c == 4:
+                            cell = tbl.cell(r + 1, 4)
+                        else:
+                            cell = tbl.cell(r + 1, c + 1)
                         cell.text = str(gz_list[r][c])
                         cell.text_frame.paragraphs[0].font.bold = False
                         cell.text_frame.paragraphs[0].font.name = "宋体-简"
@@ -387,7 +401,7 @@ def write_m_page(n):
 
 def read_latest_zb(n):
     """ 本月最后一周周报 """
-    bg = latest_zb_prs.slides[n-1]
+    bg = latest_zb_prs.slides[n - 1]
     dz = {'19': 'wwwfw', '20': 'wwht', '21': 'nwwfw', '22': 'nwht'}
     for i in bg.shapes:
         if i.shape_type == MSO_SHAPE_TYPE.TABLE:
@@ -423,7 +437,7 @@ def read_latest_zb(n):
 
 
 def used(d, k='cpu_ysy'):
-    return d[k]/sum(d.values()) * 100
+    return d[k] / sum(d.values()) * 100
 
 
 if __name__ == '__main__':
@@ -496,8 +510,3 @@ if __name__ == '__main__':
                 if y[0].strip() == x[0].strip() and y[1] != x[1]:
                     print("{}应用实例发生变化：由{}变为{}.".format(y[0], y[1], x[1]))
     prs.save(new_m)
-
-
-
-
-
