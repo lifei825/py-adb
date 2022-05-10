@@ -27,17 +27,31 @@ class SZMarket(object):
         rs = self.session.get(url=url, headers=SZMarket.headers).json()
         status = rs['data']['market']['status']
         quote = rs['data']['quote']
+        # 获取当前日期
         t = quote['time']
         date = datetime.datetime.fromtimestamp(int(t / 1000))
         date_format = "{}-{}-{}".format(date.year, date.month, date.day)
-        # 当前
+        # 开盘价
+        open = quote['open']
+        # 当前价
         current = quote['current']
+        # 股价变化数值
+        chg = quote['chg']
+        # 股价增减百分比
+        percent = quote['percent']
+        # 成交额
+        amount = quote['amount']
+        # 昨收
+        last_close = quote['last_close']
+
         print(rs)
-        return {'status': status, 'date': date_format}
+        return {'status': status, 'date': date_format, 'open': open, 'current': current,
+                'chg': chg, 'percent': percent, 'amount': amount, 'last_close': last_close}
 
 
 if __name__ == '__main__':
     a = SZMarket()
-    a.detail('000001')
-
+    sh = a.detail('000001')
+    sz = a.detail('399001', 'sz')
+    print(sh, sz)
 
