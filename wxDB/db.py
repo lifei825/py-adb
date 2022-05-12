@@ -51,7 +51,14 @@ class CloudDb(object):
             'query': """db.collection('market').doc('{}').set({})""".format(date, d)
         }
         rs = requests.post(url, data=json.dumps(data))
-        print(rs.json())
+        rs = rs.json()
+        # token过期重新获取
+        # {'errcode': 42001, 'errmsg': 'access_token expired rid: 627ca5cf-7e811ede-0fbc1f73'}
+        if "access_token expired" in rs.get("errmsg", ''):
+            self.tk = self.token()
+            url = 'https://api.weixin.qq.com/tcb/databaseupdate?access_token={}'.format(self.tk.get('access_token', ''))
+            rs = requests.post(url, data=json.dumps(data)).json()
+        print(rs)
 
     def search_market(self, date):
         """ 按日期查找行情 """
@@ -67,5 +74,5 @@ class CloudDb(object):
 if __name__ == '__main__':
     db = CloudDb(config='{}/config.pk'.format(os.getcwd()))
     # db.add()
-    db.search_market("2022-5-9")
-
+    r = db.search_market("2022-5-29")
+    print(r)
